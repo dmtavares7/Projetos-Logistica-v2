@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Visualizar Pedido{% endblock %}
+
+{% block content %}
+<h2>Detalhes do Pedido</h2>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Etiqueta: {{ pedido.etiqueta }}</h5>
+        <p><strong>Filial:</strong> {{ pedido.filial }}</p>
+        <p><strong>Pedido Protheus:</strong> {{ pedido.pedido_protheus }}</p>
+        <p><strong>Pedido Web:</strong> {{ pedido.pedido_web }}</p>
+        <p><strong>Nota Fiscal:</strong> {{ pedido.nota_fiscal }}</p>
+        <p><strong>Valor da Nota Fiscal:</strong> R$ {{ "%.2f"|format(pedido.valor_nota_fiscal) }}</p>
+        <p><strong>Chave da Nota Fiscal:</strong> {{ pedido.chave_nota_fiscal }}</p>
+        <p><strong>Total de Volumes:</strong> {{ pedido.total_volumes }}</p>
+        <p><strong>Transportadora:</strong> {{ pedido.transportadora }}</p>
+    </div>
+</div>
+
+<h3 class="mt-4">Fotos</h3>
+<div class="row">
+    {% for foto in fotos %}
+    <div class="col-md-4 mb-3">
+        <a href="{{ url_for('static', filename=foto) }}" data-lightbox="fotos" data-title="Foto do pedido">
+            <img src="{{ url_for('static', filename=foto) }}" class="img-fluid" alt="Foto do pedido">
+        </a>
+        <a href="{{ url_for('static', filename=foto) }}" download class="btn btn-sm btn-primary mt-2">Download</a>
+    </div>
+    {% endfor %}
+</div>
+
+<h3 class="mt-4">Vídeos</h3>
+<div class="row">
+    {% for video in videos %}
+    <div class="col-md-4 mb-3">
+        <video width="100%" controls>
+            <source src="{{ url_for('static', filename=video) }}" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <a href="{{ url_for('static', filename=video) }}" download class="btn btn-sm btn-primary mt-2">Download</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script>
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+    });
+</script>
+{% endblock %}
+
+{% block extra_styles %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+{% endblock %}

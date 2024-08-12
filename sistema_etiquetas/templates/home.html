@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Bem-vindo ao Sistema de Etiquetas</h1>
+<ul>
+    <li><a href="{{ url_for('main.inserir_dados') }}">Inserir Dados</a></li>
+    <li><a href="{{ url_for('main.consultar_dados') }}">Consultar Dados</a></li>
+</ul>
+{% endblock %}

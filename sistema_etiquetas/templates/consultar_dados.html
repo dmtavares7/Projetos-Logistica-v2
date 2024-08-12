@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Consultar Dados{% endblock %}
+
+{% block content %}
+<h2>Consultar Dados</h2>
+<form method="POST" action="{{ url_for('main.consultar_dados') }}">
+    <div class="form-group">
+        <label for="consulta">Consultar por Etiqueta, Pedido Protheus, Pedido Web ou Nota Fiscal:</label>
+        <input type="text" class="form-control" id="consulta" name="consulta" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Consultar</button>
+</form>
+
+{% if pagination %}
+    <h3 class="mt-4">Resultados:</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a href="{{ url_for('main.consultar_dados', sort='etiqueta', order='asc' if sort == 'etiqueta' and order == 'desc' else 'desc') }}">Etiqueta</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='filial', order='asc' if sort == 'filial' and order == 'desc' else 'desc') }}">Filial</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='pedido_protheus', order='asc' if sort == 'pedido_protheus' and order == 'desc' else 'desc') }}">Pedido Protheus</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='pedido_web', order='asc' if sort == 'pedido_web' and order == 'desc' else 'desc') }}">Pedido Web</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='nota_fiscal', order='asc' if sort == 'nota_fiscal' and order == 'desc' else 'desc') }}">Nota Fiscal</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='valor_nota_fiscal', order='asc' if sort == 'valor_nota_fiscal' and order == 'desc' else 'desc') }}">Valor</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='total_volumes', order='asc' if sort == 'total_volumes' and order == 'desc' else 'desc') }}">Total de Volumes</a></th>
+                <th><a href="{{ url_for('main.consultar_dados', sort='transportadora', order='asc' if sort == 'transportadora' and order == 'desc' else 'desc') }}">Transportadora</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultado in pagination.items %}
+                <tr>
+                    <td><a href="{{ url_for('main.visualizar_pedido', id=resultado.id) }}">{{ resultado.etiqueta }}</a></td>
+                    <td>{{ resultado.filial }}</td>
+                    <td>{{ resultado.pedido_protheus }}</td>
+                    <td>{{ resultado.pedido_web }}</td>
+                    <td>{{ resultado.nota_fiscal }}</td>
+                    <td>{{ resultado.valor_nota_fiscal }}</td>
+                    <td>{{ resultado.total_volumes }}</td>
+                    <td>{{ resultado.transportadora }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('main.consultar_dados', page=page, sort=sort, order=order) }}">{{ page }}</a></li>
+                    {% else %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

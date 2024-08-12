@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmar Dados{% endblock %}
+
+{% block content %}
+<h2>Confirmar Dados da Etiqueta</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Dados da Etiqueta</h5>
+        <p><strong>Etiqueta:</strong> {{ dados[0] }}</p>
+        <p><strong>Filial:</strong> {{ dados[1] }}</p>
+        <p><strong>Pedido Protheus:</strong> {{ dados[2] }}</p>
+        <p><strong>Pedido Web:</strong> {{ dados[3] }}</p>
+        <p><strong>Nota Fiscal:</strong> {{ dados[4] }}</p>
+        <p><strong>Valor da Nota Fiscal:</strong> R$ {{ "%.2f"|format(dados[5]) }}</p>
+        <p><strong>Chave da Nota Fiscal:</strong> {{ dados[6] }}</p>
+        <p><strong>Total de Volumes:</strong> {{ dados[7] }}</p>
+        <p><strong>Transportadora:</strong> {{ dados[8] }}</p>
+    </div>
+</div>
+
+<form action="{{ url_for('main.confirmar_insercao') }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="etiqueta" value="{{ dados[0] }}">
+    <input type="hidden" name="filial" value="{{ dados[1] }}">
+    <input type="hidden" name="pedido_protheus" value="{{ dados[2] }}">
+    <input type="hidden" name="pedido_web" value="{{ dados[3] }}">
+    <input type="hidden" name="nota_fiscal" value="{{ dados[4] }}">
+    <input type="hidden" name="valor_nota_fiscal" value="{{ dados[5] }}">
+    <input type="hidden" name="chave_nota_fiscal" value="{{ dados[6] }}">
+    <input type="hidden" name="total_volumes" value="{{ dados[7] }}">
+    <input type="hidden" name="transportadora" value="{{ dados[8] }}">
+
+    <div class="form-group">
+        <label for="fotos">Fotos (obrigatório):</label>
+        <input type="file" class="form-control-file" id="fotos" name="fotos" multiple required>
+    </div>
+    <div class="form-group">
+        <label for="videos">Vídeos (obrigatório):</label>
+        <input type="file" class="form-control-file" id="videos" name="videos" multiple required>
+    </div>
+    <button type="submit" class="btn btn-primary">Confirmar e Inserir</button>
+</form>
+{% endblock %}
